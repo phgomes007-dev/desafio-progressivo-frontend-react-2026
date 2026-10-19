@@ -1,4 +1,6 @@
-export default function Catalogo() {
+import LivroCard from "../components/LivroCard.jsx";
+
+export default function Catalogo({ livros = [], onAdicionar }) {
   return (
     <main id="inicio">
       <section className="hero">
@@ -33,6 +35,7 @@ export default function Catalogo() {
           </div>
         </div>
       </section>
+
       <section className="catalog container" id="catalogo">
         <div className="section-heading">
           <div>
@@ -40,8 +43,19 @@ export default function Catalogo() {
             <h2>Escolha sua próxima leitura</h2>
           </div>
         </div>
-        <div className="products__list"></div>
+
+        {/* Aqui é onde a mágica acontece: renderização da lista com .map */}
+        <div className="products__list">
+          {livros.map((livro) => (
+            <LivroCard
+              key={livro.id}
+              livro={livro}
+              onAdicionar={onAdicionar}
+            />
+          ))}
+        </div>
       </section>
+
       <section className="about" id="sobre">
         <div className="container">
           <p className="eyebrow">pagina 42</p>
