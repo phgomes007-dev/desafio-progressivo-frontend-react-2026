@@ -1,34 +1,25 @@
-import formatarPreco from "../dados/formatarPreco.js";
+import formatarPreco from "../utils/formatarPreco.js";
 
-export function LivroCard({ livro, onAdicionar }) {
+export default function LivroCard({ livro, onAdicionar }) {
   return (
-    <article className="book-card">
-      <div className={`book-cover book-cover--${livro.cor}`}>
-        <h3>{livro.titulo}</h3>
-        <small>{livro.autor}</small>
-        <b>p.42</b>
+    <article className="product-card">
+      <div className="product-card__cover">
+        <img src={livro.imagem} alt={livro.titulo} />
       </div>
 
-      <div className="book-card__details">
-        <p>{livro.categoria}</p>
-        <h3>{livro.titulo}</h3>
-        <span>{livro.autor}</span>
-        <div>
-          <strong>{formatarPreco(livro.preco)}</strong>
-        </div>
+      <div className="product-card__content">
+        <h3 className="product-card__title">{livro.titulo}</h3>
+        <p className="product-card__author">{livro.autor}</p>
+        <p className="product-card__price">{formatarPreco(livro.preco)}</p>
 
-        {onAdicionar && (
-          <button
-            type="button"
-            className="book-card__button"
-            onClick={() => onAdicionar(livro)}
-          >
-            Adicionar ao carrinho
-          </button>
-        )}
+        <button
+          type="button"
+          className="button button--small"
+          onClick={() => onAdicionar && onAdicionar(livro)}
+        >
+          Adicionar ao carrinho
+        </button>
       </div>
     </article>
   );
 }
-
-export default LivroCard;
