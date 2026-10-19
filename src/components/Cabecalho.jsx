@@ -1,21 +1,22 @@
-export default function Cabecalho() {
+export default function Cabecalho({ quantidadeItens = 0, aoClicarNoCarrinho }) {
   return (
     <header className="header">
       <div className="container header__inner">
-        <a className="brand" href="#inicio">
-          <span>pagina</span> 42
+        <a href="#inicio" className="logo">
+          página <span>42</span>
         </a>
-        <nav>
-          <a href="#catalogo">Livros</a>
+
+        <nav className="nav">
+          <a href="#catalogo">Catálogo</a>
           <a href="#sobre">Sobre</a>
+          <button 
+            type="button" 
+            className="cart-button" 
+            onClick={aoClicarNoCarrinho}
+          >
+            Carrinho ({quantidadeItens})
+          </button>
         </nav>
-        <button
-          className="cart-trigger"
-          type="button"
-          aria-label="Abrir carrinho"
-        >
-          Carrinho
-        </button>
       </div>
     </header>
   );
