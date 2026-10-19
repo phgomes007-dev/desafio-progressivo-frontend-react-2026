@@ -1,29 +1,41 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Cabecalho from "./components/Cabecalho.jsx";
-import Rodape from "./components/Rodape.jsx";
 import Catalogo from "./pages/Catalogo.jsx";
-import { API_KEY, API_URL } from "./dados/api.js";
+import Carrinho from "./components/Carrinho.jsx";
+import livrosIniciais from "./data/livros.js";
 
 export default function App() {
-  const [livros, setLivros] = useState([]);
+  const [livros] = useState(livrosIniciais);
+  const [carrinho, setCarrinho] = useState([]);
+  const [carrinhoAberto, setCarrinhoAberto] = useState(false);
 
-  useEffect(() => {
-    async function carregarLivros() {
-      const resposta = await fetch(API_URL, {
-        headers: { "x-api-key": API_KEY },
-      });
-      const dados = await resposta.json();
-      setLivros(dados);
-    }
+  function adicionarAoCarrinho(livro) {
+    setCarrinho((prev) => [...prev, livro]);
+  }
 
-    carregarLivros();
-  }, []);
+  function removerDoCarrinho(indiceParaRemover) {
+    setCarrinho((prev) => prev.filter((_, index) => index !== indiceParaRemover));
+  }
 
   return (
-    <>
-      <Cabecalho />
-      <Catalogo livros={livros} />
-      <Rodape />
-    </>
+    <div className="app">
+      <Cabecalho 
+        quantidadeItens={carrinho.length} 
+        aoClicarNoCarrinho={() => setCarrinhoAberto(true)} 
+      />
+
+      <Catalogo 
+        livros={livros} 
+        onAdicionar={adicionarAoCarrinho} 
+      />
+
+      {carrinhoAberto && (
+        <Carrinho
+          itens={carrinho}
+          aoFechar={() => setCarrinhoAberto(false)}
+          onRemover={removerDoCarrinho}
+        />
+      )}
+    </div>
   );
 }
